@@ -1,4 +1,4 @@
-package com.aydinibrhmv.socialapp.modul;
+package com.aydinibrhmv.socialapp.domain;
 
 
 import lombok.Data;
