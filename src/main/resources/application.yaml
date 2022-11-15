@@ -1,9 +1,12 @@
+server:
+  port: 9090
+
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/socialapp
-    username: root
-    password: 12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:3306/social_app?createDatabaseIfNotExist=true&useSSl=true
+    username: ${DB_CONNECTION_USERNAME:root}
+    password: ${DB_CONNECTION_PASSWORD:root}
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
