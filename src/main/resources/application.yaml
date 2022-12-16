@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:3306/social_app?createDatabaseIfNotExist=true&useSSl=true
-    username: ${DB_CONNECTION_USERNAME:root}
-    password: ${DB_CONNECTION_PASSWORD:root}
+    url: jdbc:mysql://127.0.0.1:3306/social_app
+    username: root
+    password: root
   jpa:
     hibernate:
       ddl-auto: update
