@@ -16,23 +16,24 @@ public class CommentService {
     private CommentRepository commentRepository;
     private UserService userService;
     private PostService postService;
-    public CommentService(CommentRepository commentRepository,PostService postService,UserService userService){
-        this.commentRepository=commentRepository;
-        this.userService=userService;
-        this.postService=postService;
+
+    public CommentService(CommentRepository commentRepository, PostService postService, UserService userService) {
+        this.commentRepository = commentRepository;
+        this.userService = userService;
+        this.postService = postService;
     }
 
 
     public List<Comment> getAllCommentWithParam(Optional<Long> userId, Optional<Long> postId) {
-        if(userId.isPresent() && postId.isPresent()){
-            return commentRepository.findByUserIdAndPostId(userId.get(),postId.get());
-        }else if(userId.isPresent()){
+        if (userId.isPresent() && postId.isPresent()) {
+            return commentRepository.findByUserIdAndPostId(userId.get(), postId.get());
+        } else if (userId.isPresent()) {
             return commentRepository.findByUserId(userId.get());
         } else if (postId.isPresent()) {
             return commentRepository.findByPostId(postId.get());
 
-        }else {
-           return commentRepository.findAll();
+        } else {
+            return commentRepository.findAll();
         }
     }
 
@@ -41,23 +42,25 @@ public class CommentService {
     }
 
     public Comment createOneComment(CommentCreateRequest commentCreateRequest) {
-        Post post=postService.getOnePostById(commentCreateRequest.getPostId());
-        User user=userService.getOneUserById(commentCreateRequest.getUserId());
-        if(user!=null&&post!=null){
+        Post post = postService.getOnePostById(commentCreateRequest.getPostId());
+        User user = userService.getOneUserById(commentCreateRequest.getUserId());
+        Comment comment = null;
+        if (user != null && post != null) {
 
-            Comment comment=new Comment();
+            comment = new Comment();
             comment.setText(commentCreateRequest.getText());
             comment.setPostId(post);
             comment.setUserId(user);
             return commentRepository.save(comment);
-        }else
-        return null;
+        } else
+            return null;
     }
 
-    public Comment updateOneCommentById(CommentUpdateRequest commentUpdateRequest,Long commentId) {
-        Optional<Comment> comment=commentRepository.findById(commentId);
-        if(comment.isPresent()){
-            Comment updateComment=comment.get();
+    public Comment updateOneCommentById(CommentUpdateRequest commentUpdateRequest, Long commentId) {
+
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        if (comment.isPresent()) {
+            Comment updateComment = comment.get();
             updateComment.setText(commentUpdateRequest.getText());
             return commentRepository.save(updateComment);
         }

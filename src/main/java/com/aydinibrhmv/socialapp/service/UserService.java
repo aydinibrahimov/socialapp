@@ -11,8 +11,8 @@ import java.util.Optional;
 public class UserService {
     private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository){
-        this.userRepository=userRepository;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public List<User> getAll() {
@@ -27,19 +27,18 @@ public class UserService {
         return userRepository.findById(userId).orElse(null);
     }
 
-    public User update(Long userId,User newUser) {
-        Optional<User> user=userRepository.findById(userId);
-        if(user.isPresent()){
-            User foundUser=user.get();
+    public User update(Long userId, User newUser) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            User foundUser = user.get();
             foundUser.setFirstname(newUser.getFirstname());
             foundUser.setLastname(newUser.getLastname());
             foundUser.setPassword(newUser.getPassword());
-            return userRepository.save(foundUser);}
-        else{
-            return null;}
+            return userRepository.save(foundUser);
+        } else {
+            return null;
+        }
     }
-
-
 
 
     public void removeById(Long userId) {

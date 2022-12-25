@@ -11,17 +11,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PostService  {
+public class PostService {
     private PostRepository postRepository;
     private UserService userService;
-    public PostService(PostRepository postRepository,UserService userService){
-        this.postRepository=postRepository;
-        this.userService=userService;
+
+    public PostService(PostRepository postRepository, UserService userService) {
+        this.postRepository = postRepository;
+        this.userService = userService;
     }
 
     public List<Post> getAllPosts(Optional<Long> userId) {
-        if(userId.isPresent())
-            return postRepository.findByUserId(userId.get());
+        if (userId.isPresent()) return postRepository.findByUserId(userId.get());
         return postRepository.findAll();
     }
 
@@ -30,10 +30,9 @@ public class PostService  {
     }
 
     public Post createOnePost(PostCreateRequest newPostCreateRequest) {
-      User user=  userService.getOneUserById(newPostCreateRequest.getUserId());
-        if(user==null)
-            return null;
-        Post toSave=new Post();
+        User user = userService.getOneUserById(newPostCreateRequest.getUserId());
+        if (user == null) return null;
+        Post toSave = new Post();
         toSave.setUserId(user);
         toSave.setText(newPostCreateRequest.getText());
         toSave.setTitle(newPostCreateRequest.getTitle());
@@ -42,19 +41,18 @@ public class PostService  {
     }
 
 
-
     public void deleteOnePost(Long postId) {
         postRepository.deleteById(postId);
     }
 
     public Post updateOnePostById(Long postId, PostUpdateRequest postUpdateRequest) {
-        Optional<Post> post=postRepository.findById(postId);
-        if(post.isPresent()){
-            Post toUpdate=post.orElse(null);
+        Optional<Post> post = postRepository.findById(postId);
+        if (post.isPresent()) {
+            Post toUpdate = post.orElse(null);
             toUpdate.setText(postUpdateRequest.getText());
             toUpdate.setTitle(postUpdateRequest.getTitle());
-             postRepository.save(toUpdate);
-                return  toUpdate;
+            postRepository.save(toUpdate);
+            return toUpdate;
         }
         return null;
     }
