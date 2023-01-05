@@ -5,24 +5,33 @@ import com.aydinibrhmv.socialapp.domain.User;
 import com.aydinibrhmv.socialapp.repository.PostRepository;
 import com.aydinibrhmv.socialapp.request.PostCreateRequest;
 import com.aydinibrhmv.socialapp.request.PostUpdateRequest;
+import com.aydinibrhmv.socialapp.response.PostResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
     private PostRepository postRepository;
     private UserService userService;
+    private LikeService likeService;
 
     public PostService(PostRepository postRepository, UserService userService) {
         this.postRepository = postRepository;
         this.userService = userService;
     }
 
-    public List<Post> getAllPosts(Optional<Long> userId) {
-        if (userId.isPresent()) return postRepository.findByUserId(userId.get());
-        return postRepository.findAll();
+    public List<PostResponse> getAllPosts(Optional<Long> userId) {
+
+        List<Post> list;
+
+        if (userId.isPresent()) {
+            list = postRepository.findByUserId(userId.get());
+        }
+        list = postRepository.findAll();
+       return list.stream().map(p -> new PostResponse(p)).collect(Collectors.toList());
     }
 
     public Post getOnePostById(Long postId) {
@@ -33,7 +42,7 @@ public class PostService {
         User user = userService.getOneUserById(newPostCreateRequest.getUserId());
         if (user == null) return null;
         Post toSave = new Post();
-        toSave.setUserId(user);
+        toSave.setUser(user);
         toSave.setText(newPostCreateRequest.getText());
         toSave.setTitle(newPostCreateRequest.getTitle());
         toSave.setPostId(newPostCreateRequest.getId());

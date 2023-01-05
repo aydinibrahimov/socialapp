@@ -3,6 +3,7 @@ package com.aydinibrhmv.socialapp.controller;
 import com.aydinibrhmv.socialapp.domain.Post;
 import com.aydinibrhmv.socialapp.request.PostCreateRequest;
 import com.aydinibrhmv.socialapp.request.PostUpdateRequest;
+import com.aydinibrhmv.socialapp.response.PostResponse;
 import com.aydinibrhmv.socialapp.service.PostService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> getAllPosts(@RequestParam Optional<Long> userId) {
+    public List<PostResponse> getAllPosts(@RequestParam Optional<Long> userId) {
         return postService.getAllPosts(userId);
     }
 
