@@ -2,43 +2,36 @@ package com.aydinibrhmv.socialapp.service;
 
 import com.aydinibrhmv.socialapp.domain.Like;
 import com.aydinibrhmv.socialapp.repository.LikeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LikeService {
-    private LikeRepository likeRepository;
-    private PostService postService;
-    private UserService userService;
+    private final LikeRepository likeRepository;
+    private final PostService postService;
+    private final UserService userService;
+    private final CommentService commentService;
 
-    public LikeService(LikeRepository likeRepository, PostService postService, UserService userService) {
-        this.likeRepository = likeRepository;
-        this.postService = postService;
-        this.userService = userService;
-    }
+    public List<Like> getAllLikes(Long userId, Long postId) {
+        if (postId != null && userId != null) {
+            return likeRepository.findByUserIdAndPostId(userId, postId);
 
-    public List<Like> getAllPostLikes(Long id) {
-        List<Like> likes;
-        if (postService.getOnePostById(id) != null){
-            likes= likeRepository.findByPostId(id);
-        return likes;}
-        return likes=null;
-    }
+        } else if (userId != null) {
+            return likeRepository.findByUserId(userId);
 
-    public List<Like> getAllUserLikes(Long id) {
-        List<Like> likes;
-        if (userService.getOneUserById(id) != null) {
-            likes = likeRepository.findByUserId(id);
-            return likes;
+        } else if (postId != null) {
+            return likeRepository.findByPostId(postId);
+        } else {
+            return likeRepository.findAll();
+
         }
-        return likes = null;
     }
-
-    public Like getOneLikeById(Long id) {
-        return likeRepository.findById(id).orElse(null);
-    }
-
 
 }
+
+
+
