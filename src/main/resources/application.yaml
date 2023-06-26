@@ -1,10 +1,10 @@
 server:
-  port: 9090
+  port: 8881
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/social_app
+    url: jdbc:mysql://localhost/social_app
     username: root
     password: root
   jpa:

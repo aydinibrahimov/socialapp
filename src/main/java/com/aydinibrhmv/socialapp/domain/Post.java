@@ -16,16 +16,17 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)//user silinenede usere aid butun postlar da silinsin
     private User user;
+
+    private String title;
 
     @Column(columnDefinition = "text")
     @Lob
     private String text;
 
-    private String title;
 
 
 }
