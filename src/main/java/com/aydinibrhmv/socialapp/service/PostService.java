@@ -34,7 +34,8 @@ public class PostService {
        return list.stream().map(p -> new PostResponse(p)).collect(Collectors.toList());
     }
 
-    public Post getOnePostById(Long postId) {
+
+        public Post getOnePostById(Long postId){
         return postRepository.findById(postId).orElse(null);
     }
 
