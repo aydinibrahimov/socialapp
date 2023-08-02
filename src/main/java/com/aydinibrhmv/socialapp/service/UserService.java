@@ -7,7 +7,6 @@ import com.aydinibrhmv.socialapp.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -26,24 +25,21 @@ public class UserService {
     }
 
     public User getOneUserById(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new CustomException(CustomErrorCode.USER_NOT_FOUND));
+        return getUser(userId);
     }
 
     public User update(Long userId, User newUser) {
-            User foundUser = getUser(userId);
-            foundUser.setFirstname(newUser.getFirstname());
-            foundUser.setLastname(newUser.getLastname());
-            foundUser.setPassword(newUser.getPassword());
-            return userRepository.save(foundUser);
+        User foundUser = getUser(userId);
+        foundUser.setFirstname(newUser.getFirstname());
+        foundUser.setLastname(newUser.getLastname());
+        foundUser.setPassword(newUser.getPassword());
+        return userRepository.save(foundUser);
 
     }
 
 
     public void removeById(Long userId) {
         userRepository.delete(getUser(userId));
-        ;
-
     }
 
     private User getUser(Long id) {
