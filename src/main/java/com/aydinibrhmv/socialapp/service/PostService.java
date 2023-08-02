@@ -27,11 +27,13 @@ public class PostService {
 
         List<Post> list;
 
-        if (userId.isPresent()) {
-            list = postRepository.findByUserId(userId.get());
-        }
+//        if (userId.isPresent()) {
+//            list = postRepository.findByUserId(userId.get());
+//        }
         list = postRepository.findAll();
-       return list.stream().map(p -> new PostResponse(p)).collect(Collectors.toList());
+        return list.stream()
+                .map(posts -> new PostResponse(posts))
+                .collect(Collectors.toList());
     }
 
 
