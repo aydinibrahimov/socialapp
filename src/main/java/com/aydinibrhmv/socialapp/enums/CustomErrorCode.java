@@ -8,7 +8,8 @@ import lombok.Getter;
 @Getter
 public enum CustomErrorCode {
 
-USER_NOT_FOUND(101,"USER with id was not found");
+USER_NOT_FOUND(101,"User with id was not found"),
+POST_NOT_FOUND(102,"Post with id was not found"),;
 
 
     private  final int code;
