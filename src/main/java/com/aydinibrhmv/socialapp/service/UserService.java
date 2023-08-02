@@ -31,21 +31,23 @@ public class UserService {
     }
 
     public User update(Long userId, User newUser) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            User foundUser = user.get();
+            User foundUser = getUser(userId);
             foundUser.setFirstname(newUser.getFirstname());
             foundUser.setLastname(newUser.getLastname());
             foundUser.setPassword(newUser.getPassword());
             return userRepository.save(foundUser);
-        } else {
-            return user.orElseThrow(() -> new CustomException(CustomErrorCode.USER_NOT_FOUND));
-        }
+
     }
 
 
     public void removeById(Long userId) {
-        userRepository.deleteById(userId);
+        userRepository.delete(getUser(userId));
+        ;
 
+    }
+
+    private User getUser(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.USER_NOT_FOUND));
     }
 }
