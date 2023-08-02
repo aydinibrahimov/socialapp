@@ -1,6 +1,8 @@
 package com.aydinibrhmv.socialapp.service;
 
 import com.aydinibrhmv.socialapp.domain.Like;
+import com.aydinibrhmv.socialapp.enums.CustomErrorCode;
+import com.aydinibrhmv.socialapp.exception.CustomException;
 import com.aydinibrhmv.socialapp.repository.LikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,10 @@ public class LikeService {
         }
     }
 
+    private  Like getLike(Long id){
+        return likeRepository.findById(id)
+                .orElseThrow(()->new CustomException(CustomErrorCode.LIKE_NOT_FOUND));
+    }
 }
 
 

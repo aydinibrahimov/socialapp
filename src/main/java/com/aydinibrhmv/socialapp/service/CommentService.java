@@ -3,6 +3,8 @@ package com.aydinibrhmv.socialapp.service;
 import com.aydinibrhmv.socialapp.domain.Comment;
 import com.aydinibrhmv.socialapp.domain.Post;
 import com.aydinibrhmv.socialapp.domain.User;
+import com.aydinibrhmv.socialapp.enums.CustomErrorCode;
+import com.aydinibrhmv.socialapp.exception.CustomException;
 import com.aydinibrhmv.socialapp.repository.CommentRepository;
 import com.aydinibrhmv.socialapp.request.CommentCreateRequest;
 import com.aydinibrhmv.socialapp.request.CommentUpdateRequest;
@@ -69,5 +71,11 @@ public class CommentService {
 
     public void deleteOneCommentById(Long commentId) {
         commentRepository.deleteById(commentId);
+    }
+
+
+    private Comment getComment(Long id) {
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.COMMENT_NOT_FOUND));
     }
 }
