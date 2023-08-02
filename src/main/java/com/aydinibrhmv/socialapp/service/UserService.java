@@ -1,6 +1,8 @@
 package com.aydinibrhmv.socialapp.service;
 
 import com.aydinibrhmv.socialapp.domain.User;
+import com.aydinibrhmv.socialapp.enums.CustomErrorCode;
+import com.aydinibrhmv.socialapp.exception.CustomException;
 import com.aydinibrhmv.socialapp.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,8 @@ public class UserService {
     }
 
     public User getOneUserById(Long userId) {
-        return userRepository.findById(userId).orElse(null);
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.USER_NOT_FOUND));
     }
 
     public User update(Long userId, User newUser) {
@@ -36,7 +39,7 @@ public class UserService {
             foundUser.setPassword(newUser.getPassword());
             return userRepository.save(foundUser);
         } else {
-            return null;
+            return user.orElseThrow(() -> new CustomException(CustomErrorCode.USER_NOT_FOUND));
         }
     }
 
