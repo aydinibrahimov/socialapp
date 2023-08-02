@@ -35,9 +35,10 @@ public class PostService {
     }
 
 
-        public Post getOnePostById(Long postId){
+    public Post getOnePostById(Long postId) {
         return postRepository.findById(postId).orElse(null);
     }
+
 
     public Post createOnePost(PostCreateRequest newPostCreateRequest) {
         User user = userService.getOneUserById(newPostCreateRequest.getUserId());
